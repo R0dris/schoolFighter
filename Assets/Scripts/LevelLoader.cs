@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 public class LevelLoader : MonoBehaviour
 {
     public Animator transition;
-    public float transitionTime = 1f;
+    public float transitionTime = 2f;
 
     private AudioSource audioSource;
     public AudioClip tryAgain;
@@ -13,15 +13,24 @@ public class LevelLoader : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
     void Update()
     {
+
+
         // Se pressionar qualquer tecla
         if (Input.GetKeyDown(KeyCode.Return))
         {
+
+            //Definir o SFX a ser reproduzido
+            audioSource.clip = tryAgain;
+
+            //Reproduzir o SFX
+            audioSource.Play();
+
             //Mudar de Cena
             StartCoroutine(CarregarFase("Fase1"));
         }
@@ -36,11 +45,7 @@ public class LevelLoader : MonoBehaviour
         // Esperar o tempo de animação
         yield return new WaitForSeconds(transitionTime);
 
-        //Definir o SFX a ser reproduzido
-        audioSource.clip = tryAgain;
 
-        //Reproduzir o SFX
-        audioSource.Play();
 
         // Carregar a cena
         SceneManager.LoadScene(nomeFase);
